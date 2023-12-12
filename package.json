@@ -13,6 +13,10 @@
         "laravel-vite-plugin": "^0.8.0",
         "sass": "^1.56.1",
         "vite": "^4.0.0",
-        "vue": "^3.2.37"
+        "vue": "^3.2.37",
+        "vee-validate": "^4.12.2",
+        "@vee-validate/rules": "^4.12.2",
+        "@vee-validate/i18n": "^4.12.2",
+        "@vueup/vue-quill": "^1.2.0"
     }
 }
