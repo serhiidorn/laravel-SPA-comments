@@ -5,12 +5,15 @@ import {ref, watch} from 'vue';
 import {configure, defineRule, Field as VeeField, Form as VeeForm} from 'vee-validate';
 import {alpha_num, email as emailRule, ext, max, mimes, required, size, url} from '@vee-validate/rules';
 import {localize} from '@vee-validate/i18n';
+import useComments from "../composables/comments.js";
 
 const props = defineProps({
     parent_id: {
         type: Number,
     },
 });
+
+const {save} = useComments();
 
 defineRule('required', required);
 defineRule('email', emailRule);
@@ -49,6 +52,13 @@ watch(text, (newValue) => {
 
 async function submit(values) {
     isSubmitting.value = true;
+
+    const comment = {
+        ...values,
+        parent_id: props.parent_id,
+    };
+
+    await save(comment);
 
     isSubmitting.value = false;
 
