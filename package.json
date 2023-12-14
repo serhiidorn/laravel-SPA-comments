@@ -17,6 +17,7 @@
         "vee-validate": "^4.12.2",
         "@vee-validate/rules": "^4.12.2",
         "@vee-validate/i18n": "^4.12.2",
-        "@vueup/vue-quill": "^1.2.0"
+        "@vueup/vue-quill": "^1.2.0",
+        "vue-recaptcha-v3": "^2.0.1"
     }
 }

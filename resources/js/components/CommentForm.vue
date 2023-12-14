@@ -6,6 +6,7 @@ import {configure, defineRule, Field as VeeField, Form as VeeForm} from 'vee-val
 import {alpha_num, email as emailRule, ext, max, mimes, required, size, url} from '@vee-validate/rules';
 import {localize} from '@vee-validate/i18n';
 import useComments from "../composables/comments.js";
+import {useReCaptcha} from "vue-recaptcha-v3";
 
 const props = defineProps({
     parent_id: {
@@ -13,6 +14,7 @@ const props = defineProps({
     },
 });
 
+const {executeRecaptcha, recaptchaLoaded} = useReCaptcha();
 const {save} = useComments();
 
 defineRule('required', required);
@@ -53,9 +55,13 @@ watch(text, (newValue) => {
 async function submit(values) {
     isSubmitting.value = true;
 
+    await recaptchaLoaded();
+    const captcha_token = await executeRecaptcha('store');
+
     const comment = {
         ...values,
         parent_id: props.parent_id,
+        captcha_token,
     };
 
     await save(comment);

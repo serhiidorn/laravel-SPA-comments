@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Http\Requests;
 
+use App\Rules\Recaptcha;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCommentRequest extends FormRequest
@@ -21,6 +22,7 @@ class StoreCommentRequest extends FormRequest
             'homepage' => ['nullable', 'url', 'max:255'],
             'image' => ['nullable', 'file', 'max:8192', 'mimes:jpg,jpeg,png,gif'],
             'file' => ['nullable', 'file', 'max:100', 'mimes:txt'],
+            'captcha_token' => ['required', new Recaptcha()],
         ];
     }
 }
