@@ -1,3 +1,5 @@
+import useAlert from "./alert.js";
+
 export default function useComments() {
     async function save(comment) {
         try {
@@ -7,6 +9,9 @@ export default function useComments() {
                 },
             });
         } catch ({response}) {
+            if (response.status === 422) {
+                useAlert(response.data.message, 'danger');
+            }
         }
     }
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Jobs;
 
+use App\Events\CommentCreated;
 use App\Models\Comment;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -36,6 +37,10 @@ class SaveCommentJob implements ShouldQueue
             }
         }
 
-        Comment::create($this->attributes);
+        $comment = Comment::create($this->attributes);
+
+        if ($comment instanceof Comment) {
+            CommentCreated::dispatch($comment);
+        }
     }
 }
