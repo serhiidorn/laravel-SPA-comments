@@ -1,6 +1,9 @@
 import useAlert from "./alert.js";
+import {ref} from "vue";
 
 export default function useComments() {
+    const comments = ref([]);
+
     async function save(comment) {
         try {
             await axios.post('/api/comments', comment, {
@@ -15,7 +18,15 @@ export default function useComments() {
         }
     }
 
+    async function fetchComments() {
+        const {data} = await axios.get('/api/comments');
+
+        comments.value = data.data;
+    }
+
     return {
-        save
+        save,
+        fetchComments,
+        comments,
     };
 }

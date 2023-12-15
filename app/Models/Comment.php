@@ -37,6 +37,8 @@ class Comment extends Model
         'file',
     ];
 
+    protected $with = ['replies'];
+
     public function replies(): HasMany
     {
         return $this->hasMany(__CLASS__, 'parent_id')->latest();
