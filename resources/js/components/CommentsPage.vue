@@ -7,6 +7,7 @@ import CommentsList from "./CommentsList.vue";
 import useComments from "../composables/comments.js";
 import {Bootstrap5Pagination} from 'laravel-vue-pagination';
 import {ref} from "vue";
+import AppScrollToTop from "./AppScrollToTop.vue";
 
 const pageNum = ref(1);
 const {comments, paginatedData, fetchComments} = useComments();
@@ -49,4 +50,5 @@ await fetchComments(pageNum.value);
             <Bootstrap5Pagination :data="paginatedData" @paginationChangePage="pageChanged"/>
         </div>
     </div>
+    <AppScrollToTop />
 </template>
