@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Stevebauman\Purify\Casts\PurifyHtmlOnGet;
 
 /**
  * @property int $id
@@ -35,6 +36,10 @@ class Comment extends Model
         'homepage',
         'image',
         'file',
+    ];
+
+    protected $casts = [
+        'text' => PurifyHtmlOnGet::class,
     ];
 
     protected $with = ['replies'];
