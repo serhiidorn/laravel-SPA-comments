@@ -19,10 +19,11 @@ export default function useComments() {
         }
     }
 
-    async function fetchComments(page) {
+    async function fetchComments(page, sort) {
         const {data} = await axios.get('/api/comments', {
             params: {
                 page,
+                sort,
             }
         });
 
