@@ -3,6 +3,7 @@ import {ref} from "vue";
 
 export default function useComments() {
     const comments = ref([]);
+    const paginatedData = ref({});
 
     async function save(comment) {
         try {
@@ -18,15 +19,21 @@ export default function useComments() {
         }
     }
 
-    async function fetchComments() {
-        const {data} = await axios.get('/api/comments');
+    async function fetchComments(page) {
+        const {data} = await axios.get('/api/comments', {
+            params: {
+                page,
+            }
+        });
 
         comments.value = data.data;
+        paginatedData.value = data;
     }
 
     return {
         save,
         fetchComments,
         comments,
+        paginatedData,
     };
 }

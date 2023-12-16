@@ -90,7 +90,6 @@ function downloadFile(file) {
                 <CommentForm
                     v-if="!! activeMap[comment.id]"
                     :parent_id="comment.id"
-                    @createComment="$emit('create-comment')"
                     :key="comment.id"
                 />
             </Transition>

@@ -41,8 +41,6 @@ configure({
     }),
 });
 
-const emits = defineEmits(['create-comment']);
-
 const isSubmitting = ref(false);
 const text = ref('');
 
@@ -67,8 +65,6 @@ async function submit(values) {
     await save(comment);
 
     isSubmitting.value = false;
-
-    emits('create-comment');
 }
 </script>
 

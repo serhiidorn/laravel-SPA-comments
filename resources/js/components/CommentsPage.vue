@@ -5,11 +5,14 @@ import ToastsList from "./ToastsList.vue";
 import {store} from "../stores/store.js";
 import CommentsList from "./CommentsList.vue";
 import useComments from "../composables/comments.js";
+import {Bootstrap5Pagination} from 'laravel-vue-pagination';
+import {ref} from "vue";
 
-const {comments, fetchComments} = useComments();
+const pageNum = ref(1);
+const {comments, paginatedData, fetchComments} = useComments();
 
 Echo.channel('comments').listen('CommentCreated', async e => {
-    await fetchComments();
+    await fetchComments(pageNum.value);
 
     if (store.toasts.length === 3) {
         store.toasts.shift();
@@ -25,7 +28,13 @@ Echo.channel('comments').listen('CommentCreated', async e => {
     }, 8000);
 });
 
-await fetchComments();
+async function pageChanged(page) {
+    pageNum.value = page;
+
+    await fetchComments(pageNum.value);
+}
+
+await fetchComments(pageNum.value);
 </script>
 
 <template>
@@ -35,5 +44,9 @@ await fetchComments();
         <CommentForm />
 
         <CommentsList :comments="comments"/>
+
+        <div class="mt-2 mt-md-3">
+            <Bootstrap5Pagination :data="paginatedData" @paginationChangePage="pageChanged"/>
+        </div>
     </div>
 </template>
