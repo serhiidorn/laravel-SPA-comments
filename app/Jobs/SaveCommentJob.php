@@ -11,6 +11,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Constraint;
 use Intervention\Image\ImageManagerStatic;
@@ -38,6 +39,8 @@ class SaveCommentJob implements ShouldQueue
         }
 
         $comment = Comment::create($this->attributes);
+
+        Cache::store('redis')->tags('comments')->flush();
 
         if ($comment instanceof Comment) {
             CommentCreated::dispatch($comment);
