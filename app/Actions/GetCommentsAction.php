@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Actions;
 
 use App\Models\Comment;
@@ -20,9 +18,7 @@ class GetCommentsAction
             function () use ($requestQuery) {
                 return Comment::query()
                     ->whereNull('parent_id')
-                    ->when(data_get($requestQuery, 'sort'), function (Builder $builder, array $column) {
-                        $builder->orderBy(...$column);
-                    })
+                    ->orderBy(...$requestQuery['sort'])
                     ->paginate(25);
             });
     }

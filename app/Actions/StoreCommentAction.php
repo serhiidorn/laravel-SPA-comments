@@ -1,20 +1,29 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Actions;
 
-use App\Jobs\SaveCommentJob;
+use App\Events\CommentCreated;
+use App\Jobs\CommentImageResizeJob;
+use App\Models\Comment;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\ImageManagerStatic;
 
 class StoreCommentAction
 {
-    public function handle(array $data): void
+    public function handle(array $data): Comment
     {
         if (data_get($data, 'image')) {
             $imagePath = Storage::putFile('images', $data['image']);
 
             data_set($data, 'image', $imagePath);
+
+            $fullImagePath = Storage::path($imagePath);
+            $image = ImageManagerStatic::make($fullImagePath);
+
+            if ($image->width() > 320 || $image->height() > 240) {
+                CommentImageResizeJob::dispatch($fullImagePath);
+            }
         }
 
         if (data_get($data, 'file')) {
@@ -23,6 +32,12 @@ class StoreCommentAction
             data_set($data, 'file', $filePath);
         }
 
-        SaveCommentJob::dispatch($data);
+        $comment = Comment::create($data);
+
+        Cache::store('redis')->tags('comments')->flush();
+
+        CommentCreated::dispatch($comment);
+
+        return $comment;
     }
 }

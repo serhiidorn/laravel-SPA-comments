@@ -82,7 +82,6 @@ async function submit(values) {
                                     class="form-control fs-5"
                                     :class="{'is-invalid': errors.username }"
                                     name="username"
-                                    id="username"
                                     placeholder="Username"
                                     rules="required|alpha_num|max:255"
                                 />
@@ -98,7 +97,6 @@ async function submit(values) {
                                     class="form-control fs-5"
                                     :class="{'is-invalid': errors.email }"
                                     name="email"
-                                    id="email"
                                     placeholder="email@example.com"
                                     rules="required|email|max:255"
                                 />
@@ -116,7 +114,6 @@ async function submit(values) {
                                         class="form-control fs-5"
                                         :class="{'is-invalid': errors.homepage }"
                                         name="homepage"
-                                        id="homepage"
                                         rules="url|max:255"
                                     />
                                     <span class="invalid-feedback" role="alert">
@@ -133,7 +130,6 @@ async function submit(values) {
                                         class="form-control fs-5"
                                         :class="{'is-invalid': errors.image}"
                                         name="image"
-                                        id="image"
                                         accept=".jpg, .jpeg, .png, .gif"
                                         rules="size:8192|mimes:image/jpg,image/jpeg,image/png,image/gif"
                                     />
@@ -154,7 +150,6 @@ async function submit(values) {
                                         class="form-control fs-5"
                                         :class="{'is-invalid': errors.file}"
                                         name="file"
-                                        id="file"
                                         accept=".txt"
                                         rules="size:100|ext:txt"
                                     />
